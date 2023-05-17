@@ -1,8 +1,8 @@
 class Node():
     def __init__(self, state, parent, action):
-        self.state = state
-        self.parent = parent
-        self.action = action
+        self.state = state # actor id
+        self.parent = parent # previous actor id
+        self.action = action # movie id to arrive at current actor 
 
 
 class StackFrontier():
@@ -22,17 +22,23 @@ class StackFrontier():
         if self.empty():
             raise Exception("empty frontier")
         else:
+            # retrieve the last element
             node = self.frontier[-1]
+            # create a list from the start to the last element
             self.frontier = self.frontier[:-1]
             return node
 
 
 class QueueFrontier(StackFrontier):
 
+    # overrided remove. Instead of a stack last-in first out; 
+    # it becomes first in first out (queue)
     def remove(self):
         if self.empty():
-            raise Exception("empty frontier")
+            raise exception("empty frontier")
         else:
+            # saves first element
             node = self.frontier[0]
+            # creates new array from the second element to the end
             self.frontier = self.frontier[1:]
             return node

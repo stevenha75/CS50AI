@@ -83,18 +83,64 @@ def main():
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
-
+# source in this case is the person_id for inputted names
 def shortest_path(source, target):
     """
-    Returns the shortest list of (movie_id, person_id) pairs
+    Returns the shortest list of tuple (movie_id, person_id) pairs
     that connect the source to the target.
 
     If no possible path, returns None.
     """
+    
+    # Implementation of breadth-first search (first-in first-out)
+    # allows us to find the shortest path 
+    # initialize frontier to starting position
+    start = Node(state=source, parent=None, action=None)
+    frontier = QueueFrontier()
+    frontier.add(start)
+    
+    # Initializing the explored set
+    # set is a built in function that creates an unordered collection
+    explored = set()
+    
+    # Loop until goal state is reached
+    while True:
+        
+        if frontier.empty():
+            raise Exception("No solution")
+        
+        # Take node from the frontier (the first one b/c we are using BFS)
+        # & store the node
+        node = frontier.remove()
 
-    # TODO
-    raise NotImplementedError
-
+        # If goal state is reached, return/end the infinite loop
+        if node.state == target:
+            solution = []
+            
+            # find the path we took to reach the solution 
+            while node.parent is not None:
+                # save the current node to the solution in (movie_id, person_id) pairs
+                solution.append((node.action, node.state))
+                node = node.parent # traversing backwards through parents
+                
+            # return the solution after we made it to the initial state
+            solution.reverse() # reverse b/c we are moving backwards through the nodes
+            return solution
+        
+        #  add node to the explored set
+        explored.add((node.action, node.state))
+        
+        # adding neighbors to the frontier where action is the movie id
+        # and the person id is the the state
+        # the action is the movie id in this case b/c the the next state (person)
+        # was found via the the movie
+        for movie_id, person_id in neighbors_for_person(node.state):
+            # check if the person has alrdy been evaluated for neighbors or the node has been explored
+            if not frontier.contains_state(person_id) and (movie_id, person_id) not in explored:
+                # add the child (of the parent node) to the frontier
+                child = Node(state = person_id, parent=node, action=movie_id)
+                frontier.add(child)
+        
 
 def person_id_for_name(name):
     """
