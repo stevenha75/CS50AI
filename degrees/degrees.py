@@ -83,6 +83,7 @@ def main():
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
+
 # source in this case is the person_id for inputted names
 def shortest_path(source, target):
     """
@@ -107,7 +108,8 @@ def shortest_path(source, target):
     while True:
         
         if frontier.empty():
-            raise Exception("No solution")
+            # there is no solution if the frontier is ever empty (nothing left to explore)
+            return None
         
         # Take node from the frontier (the first one b/c we are using BFS)
         # & store the node
@@ -121,10 +123,10 @@ def shortest_path(source, target):
             while node.parent is not None:
                 # save the current node to the solution in (movie_id, person_id) pairs
                 solution.append((node.action, node.state))
-                node = node.parent # traversing backwards through parents
+                node = node.parent  # traversing backwards through parents
                 
             # return the solution after we made it to the initial state
-            solution.reverse() # reverse b/c we are moving backwards through the nodes
+            solution.reverse()  # reverse b/c we are moving backwards through the nodes
             return solution
         
         # add node to the explored set
@@ -138,7 +140,7 @@ def shortest_path(source, target):
             # check if the person has alrdy been evaluated for neighbors or the node has been explored
             if not frontier.contains_state(person_id) and (movie_id, person_id) not in explored:
                 # add the child (of the parent node) to the frontier
-                child = Node(state = person_id, parent=node, action=movie_id)
+                child = Node(state=person_id, parent=node, action=movie_id)
                 frontier.add(child)
         
 
