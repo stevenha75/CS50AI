@@ -127,7 +127,7 @@ def shortest_path(source, target):
             solution.reverse() # reverse b/c we are moving backwards through the nodes
             return solution
         
-        #  add node to the explored set
+        # add node to the explored set
         explored.add((node.action, node.state))
         
         # adding neighbors to the frontier where action is the movie id
