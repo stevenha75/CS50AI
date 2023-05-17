@@ -79,14 +79,30 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
+    # looping through the rows
+    for i in range(3):
+        # check for 3 horizontally
+        if ((board[i][0] == board[i][1] == board[i][2]) and (board[i][0] != EMPTY)):
+            return board[i][0]
+        # check for 3 vertically
+        if ((board[0][i] == board[1][i] == board[2][i]) and (board[0][i] != EMPTY)):
+            return board[0][i]
     
+    # check for 3 in a row diagonally
+    if (((board[0][0] == board[1][1] == board[2][2]) or 
+         (board[2][0] == board[1][1] == board[0][2])) and 
+        (board[1][1] != EMPTY)):
+        return board[1][1]
+    
+    # if there are no winners return None
+    return None
     
 
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    
 
 
 def utility(board):
