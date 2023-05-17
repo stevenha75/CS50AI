@@ -102,7 +102,15 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
+    # Check for a winner and terminate the game
+    if winner(board) != None:
+        return True
     
+    # If there is no winner -> check for actions
+    if len(actions(board)) == 0:
+        return True
+    
+    return False    
 
 
 def utility(board):
