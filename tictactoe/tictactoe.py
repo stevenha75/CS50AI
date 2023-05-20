@@ -63,7 +63,7 @@ def result(board, action):
     Returns the board that results from making move (i, j) on the board.
     """
     # check if action is possible
-    if action not in actions():
+    if action not in actions(board):
         raise Exception("Invalid Action")
     
     # create a copy of the board to return later
@@ -117,10 +117,11 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    winner = winner(board)
-    if winner == X:
+    winning_player = winner(board)
+    
+    if winning_player == X:
         return 1
-    elif winner == O:
+    elif winning_player == O:
         return -1
     else:
         return 0
@@ -128,6 +129,78 @@ def utility(board):
 
 def minimax(board):
     """
-    Returns the optimal action for the current player on the board.
+    Returns the optimal action for the current player on the board. This algorithm
+    is optimized with alpha-beta pruning
+    the move should return a tuple (i, j) that is one of the allowable moves
     """
-    raise NotImplementedError
+    # if the board is terminal, there are no more actions to take
+    if terminal(board):
+        return None
+    
+    # X plays and tries to pick the highest utility states against the minimiser (O)
+    if player(board) == X:
+        score = -math.inf
+        optimal_action = None
+        
+        # looping through actions and finding the best of all minimum utils
+        # that are selected from max utils
+        for action in actions(board):
+            min_util = min_val(result(board, action))
+            
+            if min_util > score:
+                utility = min_util
+                optimal_action = action
+        
+        return optimal_action
+    
+    # O plays and tries to pick the lowest utility states against maximiser
+    elif player(board) == O:
+        score = math.inf
+        optimal_action = None
+        
+        # looping through actions and finding the worst of all maximum utils
+        # that are selected from min utils
+        for action in actions(board):
+            max_util = max_val(result(board, action))
+            
+            if max_util < score:
+                utility = max_util
+                optimal_action = action 
+        
+        return optimal_action
+    
+
+def max_val(board):
+    """
+    returns the max utility out of all min utilities
+    """    
+    # base case: if we have reached the final state, return the utility of 
+    # that board
+    if terminal(board):
+        return utility(board)
+    
+    util = -math.inf
+    # looping through the actions and finding max out of 
+    # every min state 
+    for action in actions(board):
+        util = max(util, min_val(result(board, action)))
+    
+    return util
+        
+    
+def min_val(board):
+    """
+    returns the min utility out of all max utilities.
+    """
+    # base case: if we have reached the final state, return the utility of 
+    # that board
+    if terminal(board):
+        return utility(board)
+    
+    util = math.inf
+    # looping through the actions and finding min out of 
+    # every max state 
+    for action in actions(board):
+        util = min(util, max_val(result(board, action)))
+    
+    return util
