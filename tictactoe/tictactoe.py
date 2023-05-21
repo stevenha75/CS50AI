@@ -129,8 +129,7 @@ def utility(board):
 
 def minimax(board):
     """
-    Returns the optimal action for the current player on the board. This algorithm
-    is optimized with alpha-beta pruning
+    Returns the optimal action for the current player on the board.
     the move should return a tuple (i, j) that is one of the allowable moves
     """
     # if the board is terminal, there are no more actions to take
