@@ -148,12 +148,12 @@ def minimax(board):
             min_util = min_val(result(board, action))
             
             if min_util > score:
-                utility = min_util
+                score = min_util
                 optimal_action = action
         
         return optimal_action
     
-    # O plays and tries to pick the lowest utility states against maximiser
+    # O plays and tries to pick the lowest utility action states against maximiser
     elif player(board) == O:
         score = math.inf
         optimal_action = None
@@ -164,7 +164,7 @@ def minimax(board):
             max_util = max_val(result(board, action))
             
             if max_util < score:
-                utility = max_util
+                score = max_util
                 optimal_action = action 
         
         return optimal_action
