@@ -9,9 +9,14 @@ This repository is intended just to share my own solution to the problem sets. R
 - [Week 0]()
   - [Degrees (Breadth First Search)]()
   - [Tic-Tac-Toe (Minimax)]()
+- [Week 1]()
 
 ## Week 0: 
 ### Degrees (Breadth First Search)
 - You can find an explanation on how it works [here]()
 ### Tic-Tac-Toe (Minimax)
+- You can find an explanation on how it works [here]()
+
+## Week 1: 
+
 
